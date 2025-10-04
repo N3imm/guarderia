@@ -61,12 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Validar acciones permitidas según el rol
-if (!isAdmin() && in_array($action, ['view', 'edit'])) {
-    $_SESSION['error_message'] = 'No tienes permisos para realizar esta acción';
-    redirect('my_pets.php');
-}
-
 // Obtener datos según la acción
 switch ($action) {
     case 'list':
@@ -75,7 +69,7 @@ switch ($action) {
         break;
         
     case 'view':
-        if ($pet_id && isAdmin()) {
+        if ($pet_id) {
             $petResult = $petViewModel->getPetById($pet_id);
             if (!$petResult['success'] || $petResult['data']['user_id'] != $user_id) {
                 $_SESSION['error_message'] = 'Mascota no encontrada o no tienes permisos';
@@ -90,7 +84,7 @@ switch ($action) {
         break;
         
     case 'edit':
-        if ($pet_id && isAdmin()) {
+        if ($pet_id) {
             $petResult = $petViewModel->getPetById($pet_id);
             if (!$petResult['success'] || $petResult['data']['user_id'] != $user_id) {
                 $_SESSION['error_message'] = 'Mascota no encontrada o no tienes permisos';
@@ -181,7 +175,6 @@ include '../../views/layouts/header.php';
                                     </p>
                                 <?php endif; ?>
                             </div>
-                            <?php if (isAdmin()): ?>
                             <div class="mt-3">
                                 <a href="my_pets.php?action=view&id=<?php echo $pet['id']; ?>" 
                                    class="btn btn-outline-primary btn-sm me-2">
@@ -192,7 +185,6 @@ include '../../views/layouts/header.php';
                                     <i class="fas fa-edit me-1"></i>Editar
                                 </a>
                             </div>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -259,6 +251,12 @@ include '../../views/layouts/header.php';
                         </div>
 
                         <div class="mb-3">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" class="form-control" id="color" name="color"
+                                   value="<?php echo $action === 'edit' ? htmlspecialchars($pet['color'] ?? '') : ''; ?>">
+                        </div>
+
+                        <div class="mb-3">
                             <label for="photo" class="form-label">Foto</label>
                             <?php if ($action === 'edit' && $pet['photo']): ?>
                                 <div class="mb-2">
@@ -270,9 +268,16 @@ include '../../views/layouts/header.php';
                         </div>
 
                         <div class="mb-3">
-                            <label for="notes" class="form-label">Notas o Consideraciones Especiales</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="3"><?php 
-                                echo $action === 'edit' ? htmlspecialchars($pet['notes']) : ''; 
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="description" name="description" rows="2"><?php 
+                                echo $action === 'edit' ? htmlspecialchars($pet['description'] ?? '') : ''; 
+                            ?></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="medical_notes" class="form-label">Notas Médicas / Consideraciones Especiales</label>
+                            <textarea class="form-control" id="medical_notes" name="medical_notes" rows="3"><?php 
+                                echo $action === 'edit' ? htmlspecialchars($pet['medical_notes'] ?? '') : ''; 
                             ?></textarea>
                         </div>
 
@@ -326,10 +331,22 @@ include '../../views/layouts/header.php';
                                 <?php echo number_format($pet['weight'], 1); ?> kg
                             </p>
                         <?php endif; ?>
-                        <?php if ($pet['notes']): ?>
+                        <?php if (!empty($pet['color'])): ?>
+                            <p>
+                                <i class="fas fa-palette me-2 text-muted"></i>
+                                <?php echo htmlspecialchars($pet['color']); ?>
+                            </p>
+                        <?php endif; ?>
+                        <?php if (!empty($pet['description'])): ?>
+                            <p>
+                                <i class="fas fa-info-circle me-2 text-muted"></i>
+                                <?php echo nl2br(htmlspecialchars($pet['description'])); ?>
+                            </p>
+                        <?php endif; ?>
+                        <?php if (!empty($pet['medical_notes'])): ?>
                             <p class="mb-0">
-                                <i class="fas fa-sticky-note me-2 text-muted"></i>
-                                <?php echo nl2br(htmlspecialchars($pet['notes'])); ?>
+                                <i class="fas fa-notes-medical me-2 text-muted"></i>
+                                <?php echo nl2br(htmlspecialchars($pet['medical_notes'])); ?>
                             </p>
                         <?php endif; ?>
                     </div>

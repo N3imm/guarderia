@@ -33,6 +33,10 @@ class Pet {
         try {
             $this->conn->beginTransaction();
 
+            // Log para debug
+            error_log("Iniciando creación de mascota. Actor ID: " . $actor_id);
+            error_log("Datos de mascota: " . json_encode($data));
+
             $query = "INSERT INTO " . $this->table . " 
                     (user_id, name, species, breed, birth_date, weight, photo, color, description, medical_notes) 
                     VALUES (:user_id, :name, :species, :breed, :birth_date, :weight, :photo, :color, :description, :medical_notes)";
@@ -50,23 +54,31 @@ class Pet {
             $stmt->bindParam(':description', $data['description']);
             $stmt->bindParam(':medical_notes', $data['medical_notes']);
 
-            if ($stmt->execute()) {
-                $this->id = $this->conn->lastInsertId();
-                if ($this->createInitialStatus($actor_id)) {
-                    $this->conn->commit();
-                    return true;
-                }
+            if (!$stmt->execute()) {
+                error_log("Error al ejecutar INSERT en pets: " . json_encode($stmt->errorInfo()));
+                throw new PDOException("Error al insertar mascota");
             }
-            
-            if ($this->conn->inTransaction()) {
-                $this->conn->rollBack();
+
+            $this->id = $this->conn->lastInsertId();
+            error_log("Mascota insertada con ID: " . $this->id);
+
+            // Crear estado inicial
+            if (!$this->createInitialStatus($actor_id)) {
+                error_log("Error al crear estado inicial");
+                throw new PDOException("Error al crear estado inicial de la mascota");
             }
-            return false;
+
+            $this->conn->commit();
+            error_log("Transacción completada exitosamente");
+            return true;
+
         } catch (PDOException $e) {
             if ($this->conn->inTransaction()) {
                 $this->conn->rollBack();
+                error_log("Rollback ejecutado");
             }
-            error_log("Error creando mascota: " . $e->getMessage());
+            error_log("Error en Pet::create() - " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
             return false;
         }
     }
@@ -74,6 +86,19 @@ class Pet {
     // Crear estado inicial de la mascota
     private function createInitialStatus($updated_by) {
         try {
+            error_log("Creando estado inicial. Updated by: " . $updated_by);
+
+            // Verificar que el usuario existe antes de insertar
+            $checkUser = "SELECT id FROM users WHERE id = :user_id";
+            $checkStmt = $this->conn->prepare($checkUser);
+            $checkStmt->bindParam(':user_id', $updated_by);
+            $checkStmt->execute();
+
+            if ($checkStmt->rowCount() === 0) {
+                error_log("ERROR: El usuario con ID " . $updated_by . " no existe en la tabla users");
+                return false;
+            }
+
             $query = "INSERT INTO pet_status (pet_id, status, status_description, updated_by) 
                     VALUES (:pet_id, 'descansando', 'Mascota registrada en el sistema', :updated_by)";
             
@@ -81,9 +106,16 @@ class Pet {
             $stmt->bindParam(':pet_id', $this->id);
             $stmt->bindParam(':updated_by', $updated_by);
             
-            return $stmt->execute();
+            if (!$stmt->execute()) {
+                error_log("Error al ejecutar INSERT en pet_status: " . json_encode($stmt->errorInfo()));
+                return false;
+            }
+
+            error_log("Estado inicial creado exitosamente");
+            return true;
+
         } catch (PDOException $e) {
-            error_log("Error creando estado inicial: " . $e->getMessage());
+            error_log("Error en createInitialStatus(): " . $e->getMessage());
             return false;
         }
     }
