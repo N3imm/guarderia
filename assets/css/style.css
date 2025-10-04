@@ -1,0 +1,805 @@
+/* --- Paleta de Colores y Tema Personalizado para Happy Pets --- */
+
+:root {
+  /* Paleta Principal */
+  --primary-color: #4A90E2; /* Un azul más moderno y amigable */
+  --primary-dark: #357ABD; 
+  --secondary-color: #50E3C2; /* Un acento turquesa/verde menta */
+  --background-color: #f8f9fa; /* Gris muy claro para el fondo */
+  --card-background: #ffffff;
+  --text-color: #333333;
+  --text-muted-color: #6c757d;
+  --border-color: #dee2e6;
+
+  /* Colores de Estado */
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+
+  /* Sobrescribir variables de Bootstrap */
+  --bs-primary: var(--primary-color);
+  --bs-primary-rgb: 74, 144, 226;
+  --bs-secondary: var(--secondary-color);
+  --bs-secondary-rgb: 80, 227, 194;
+  --bs-body-bg: var(--background-color);
+  --bs-body-color: var(--text-color);
+  --bs-border-color: var(--border-color);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bs-body-bg);
+}
+
+/* --- Navbar --- */
+.navbar-dark {
+  background-color: var(--primary-dark) !important;
+}
+
+.navbar-scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* --- Botones --- */
+.btn {
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-light {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--primary-color);
+}
+
+.btn-light:hover {
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+
+.btn-outline-light {
+  color: #ffffff;
+  border-color: #ffffff;
+  border-width: 2px;
+}
+
+.btn-outline-light:hover {
+  color: var(--primary-dark);
+  background-color: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: var(--danger-color);
+}
+
+.btn-outline-info {
+  color: var(--info-color);
+  border-color: var(--info-color);
+}
+
+.btn-outline-info:hover {
+  color: #fff;
+  background-color: var(--info-color);
+}
+
+/* --- Tarjetas (Cards) --- */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: var(--card-background);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(74, 144, 226, 0.15);
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 500;
+}
+
+/* --- Iconos de Servicios --- */
+.service-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  transition: all 0.3s ease;
+}
+
+.service-icon i {
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+.card:hover .service-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 16px rgba(74, 144, 226, 0.3);
+}
+
+/* --- Hero Section --- */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-title {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-subtitle {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Formularios --- */
+.form-control, .form-select {
+  border-radius: 0.375rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* --- Página de Autenticación --- */
+.auth-page {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.auth-left {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(80, 227, 194, 0.9) 100%);
+  color: #fff;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-right {
+  background-color: var(--card-background);
+  padding: 3rem;
+}
+
+/* --- Animaciones --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* --- Clases de estado de mascotas --- */
+.status-badge {
+  padding: 0.4em 0.8em;
+  border-radius: 1.5em;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.status-descansando { 
+  background-color: #e9ecef; 
+  color: #495057; 
+}
+
+.status-jugando { 
+  background-color: #d4edda; 
+  color: #155724; 
+}
+
+.status-comiendo { 
+  background-color: #fff3cd; 
+  color: #856404; 
+}
+
+.status-durmiendo { 
+  background-color: #cce5ff; 
+  color: #004085; 
+}
+
+.status-paseando { 
+  background-color: #d1ecf1; 
+  color: #0c5460; 
+}
+
+.status-en_revision { 
+  background-color: #f8d7da; 
+  color: #721c24; 
+}
+
+/* --- Footer --- */
+footer a {
+  transition: all 0.2s ease;
+}
+
+footer a:hover {
+  opacity: 1 !important;
+  color: var(--secondary-color) !important;
+  transform: translateY(-2px);
+}
+
+/* --- Utilidades Adicionales --- */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+}
+
+.shadow-hover {
+  transition: all 0.3s ease;
+}
+
+.shadow-hover:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: auto;
+    padding: 100px 0 60px;
+  }
+  
+  .display-3 {
+    font-size: 2.5rem;
+  }
+  
+  .service-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .service-icon i {
+    font-size: 2rem;
+  }
+}
+
+/* --- Smooth Scrolling --- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* --- Accesibilidad --- */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* --- Loading States --- */
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Dashboard Improvements --- */
+.stats-card {
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Tables --- */
+.table {
+  background-color: var(--card-background);
+}
+
+.table thead th {
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(74, 144, 226, 0.05);
+}
+
+/* --- Badges --- */
+.badge {
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+}
+
+/* --- Alerts --- */
+.alert {
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Modals --- */
+.modal-content {
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+/* --- Scrollbar personalizado (opcional) --- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* ============================================
+   ESTILOS PARA DASHBOARD Y MASCOTAS
+   ============================================ */
+
+/* --- Fotos de Mascotas --- */
+.pet-photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pet-photo:hover {
+  transform: scale(1.05);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.pet-photo-large {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+  object-fit: cover;
+  border: 4px solid var(--border-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Stats Cards Coloreadas --- */
+.stats-card {
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+  background-color: var(--card-background);
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.15);
+}
+
+.stats-card-orange {
+  border-left: 4px solid #fd7e14;
+  transition: all 0.3s ease;
+  background-color: var(--card-background);
+}
+
+.stats-card-orange:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(253, 126, 20, 0.15);
+}
+
+.stats-card-green {
+  border-left: 4px solid var(--success-color);
+  transition: all 0.3s ease;
+  background-color: var(--card-background);
+}
+
+.stats-card-green:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.15);
+}
+
+.stats-card-purple {
+  border-left: 4px solid #6f42c1;
+  transition: all 0.3s ease;
+  background-color: var(--card-background);
+}
+
+.stats-card-purple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(111, 66, 193, 0.15);
+}
+
+/* --- Pet Cards (Admin) --- */
+.pet-card {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.pet-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-color);
+}
+
+.pet-card .card-footer {
+  padding: 0.75rem 1rem;
+}
+
+.pet-card .btn-group button {
+  flex: 1;
+}
+
+/* --- Status de Citas --- */
+.appointment-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.appointment-pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.appointment-confirmada {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.appointment-completada {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.appointment-cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* --- Timeline de Actividades --- */
+.timeline {
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.timeline-item:last-child {
+  border-left: 2px solid transparent;
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  border: 2px solid var(--card-background);
+}
+
+.timeline-item:hover::before {
+  background-color: var(--secondary-color);
+  transform: scale(1.3);
+  transition: all 0.3s ease;
+}
+
+/* --- Gradiente para sección de consejos --- */
+.bg-pet-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+/* --- Filtros y búsqueda --- */
+.search-filter {
+  transition: all 0.3s ease;
+}
+
+.search-filter:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+}
+
+/* --- Mejoras para responsive --- */
+@media (max-width: 768px) {
+  .pet-photo {
+    width: 60px;
+    height: 60px;
+    border-width: 2px;
+  }
+  
+  .pet-photo-large {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .stats-card,
+  .stats-card-orange,
+  .stats-card-green,
+  .stats-card-purple {
+    margin-bottom: 1rem;
+  }
+  
+  .timeline-item {
+    padding-left: 1rem;
+    margin-left: 0.25rem;
+  }
+}
+
+/* --- Animación para las cards de estadísticas --- */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-card,
+.stats-card-orange,
+.stats-card-green,
+.stats-card-purple {
+  animation: slideInUp 0.5s ease-out;
+}
+
+/* Delays para animación escalonada */
+.col-xl-3:nth-child(1) .stats-card,
+.col-xl-3:nth-child(1) .stats-card-orange,
+.col-xl-3:nth-child(1) .stats-card-green,
+.col-xl-3:nth-child(1) .stats-card-purple {
+  animation-delay: 0.1s;
+}
+
+.col-xl-3:nth-child(2) .stats-card,
+.col-xl-3:nth-child(2) .stats-card-orange,
+.col-xl-3:nth-child(2) .stats-card-green,
+.col-xl-3:nth-child(2) .stats-card-purple {
+  animation-delay: 0.2s;
+}
+
+.col-xl-3:nth-child(3) .stats-card,
+.col-xl-3:nth-child(3) .stats-card-orange,
+.col-xl-3:nth-child(3) .stats-card-green,
+.col-xl-3:nth-child(3) .stats-card-purple {
+  animation-delay: 0.3s;
+}
+
+.col-xl-3:nth-child(4) .stats-card,
+.col-xl-3:nth-child(4) .stats-card-orange,
+.col-xl-3:nth-child(4) .stats-card-green,
+.col-xl-3:nth-child(4) .stats-card-purple {
+  animation-delay: 0.4s;
+}
+
+/* --- Mejoras visuales para badges --- */
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* --- Estilos para botones de acción en cards --- */
+.card-footer .btn-outline-primary:hover,
+.card-footer .btn-outline-warning:hover,
+.card-footer .btn-outline-info:hover,
+.card-footer .btn-outline-success:hover,
+.card-footer .btn-outline-danger:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* --- Estado de carga --- */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* --- Placeholder para imágenes sin foto --- */
+.pet-photo.bg-light,
+.pet-photo-large.bg-light {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+
+/* --- Mejoras para modales --- */
+.modal-content {
+  border-radius: 1rem;
+}
+
+.modal-header {
+  border-bottom: 2px solid var(--border-color);
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-footer {
+  border-top: 2px solid var(--border-color);
+  padding: 1rem 1.5rem;
+}
+
+/* --- Estilos para alertas personalizadas --- */
+.alert {
+  border-left: 4px solid;
+  border-radius: 0.5rem;
+}
+
+.alert-info {
+  border-left-color: var(--info-color);
+}
+
+.alert-warning {
+  border-left-color: var(--warning-color);
+}
+
+.alert-success {
+  border-left-color: var(--success-color);
+}
+
+.alert-danger {
+  border-left-color: var(--danger-color);
+}
