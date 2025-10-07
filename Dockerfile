@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
 # Habilitar mod_rewrite de Apache para URLs amigables (muy común en proyectos PHP)
 RUN a2enmod rewrite
 
+# Copiar la configuración de Apache para apuntar al directorio /public
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
 # Establecer el directorio de trabajo
 WORKDIR /var/www/html
 
