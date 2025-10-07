@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Custom CSS -->
-    <link href="<?php echo isset($css_path) ? $css_path : '../'; ?>assets/css/style.css?v=1.1" rel="stylesheet">
+    <link href="<?php echo isset($css_path) ? $css_path : '../'; ?>assets/css/style.min.css?v=1.1" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?php echo isset($css_path) ? $css_path : '../'; ?>assets/images/favicon.ico">

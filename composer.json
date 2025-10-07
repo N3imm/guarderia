@@ -1,0 +1,7 @@
+{
+    "name": "jean/guarderia",
+    "description": "Proyecto de guarderia de mascotas con composer integrado.",
+    "require": {
+        "matthiasmullie/minify": "^1.3"
+    }
+}
