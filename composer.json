@@ -3,5 +3,8 @@
     "description": "Proyecto de guarderia de mascotas con composer integrado.",
     "require": {
         "matthiasmullie/minify": "^1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }
