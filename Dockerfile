@@ -1,10 +1,12 @@
 # Usar una imagen oficial de PHP con Apache
 FROM php:8.1-apache
 
-# Instalar extensiones de PHP necesarias
-# pdo_mysql para la conexión con MySQL
-# mbstring y libxml son comunes para frameworks y manejo de strings/XML
-RUN docker-php-ext-install pdo_mysql mbstring libxml
+# Instalar dependencias del sistema y luego las extensiones de PHP
+RUN apt-get update && apt-get install -y \
+    libxml2-dev \
+    libonig-dev \
+    && docker-php-ext-install pdo_mysql mbstring \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Habilitar mod_rewrite de Apache para URLs amigables (muy común en proyectos PHP)
 RUN a2enmod rewrite
