@@ -29,7 +29,7 @@ $page_title = 'Bienvenido';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo ASSETS_URL; ?>css/style.css" rel="stylesheet">
     
     <!-- Meta tags para SEO -->
     <meta name="description" content="Guardería profesional para mascotas en Bogotá. Cuidado 24/7, seguimiento en tiempo real y personal veterinario calificado.">
@@ -432,7 +432,7 @@ $page_title = 'Bienvenido';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <!-- Custom JS -->
-<script src="../assets/js/app.js"></script>
+<script src="<?php echo ASSETS_URL; ?>js/app.js"></script>
 
 <!-- Smooth Scroll -->
 <script>

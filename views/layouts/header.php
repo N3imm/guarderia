@@ -21,10 +21,10 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Custom CSS -->
-    <link href="<?php echo isset($css_path) ? $css_path : '../'; ?>assets/css/style.min.css?v=1.1" rel="stylesheet">
+    <link href="<?php echo ASSETS_URL; ?>css/style.css?v=1.1" rel="stylesheet">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo isset($css_path) ? $css_path : '../'; ?>assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo ASSETS_URL; ?>images/favicon.ico">
 </head>
 <body class="<?php echo isset($body_class) ? $body_class : ''; ?>">
 
@@ -115,7 +115,7 @@ if (isset($_SESSION['user_id'])):
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : ''; ?>" href="../admin/dashboard.php">
+                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : ''; ?>" href="<?php echo ADMIN_URL; ?>dashboard.php">
                                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                                 </a>
                             </li>
@@ -126,22 +126,22 @@ if (isset($_SESSION['user_id'])):
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'pets.php') ? 'active' : ''; ?>" href="../admin/pets.php">
+                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'pets.php') ? 'active' : ''; ?>" href="<?php echo ADMIN_URL; ?>pets.php">
                                     <i class="fas fa-dog me-2"></i>Mascotas
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointments.php') ? 'active' : ''; ?>" href="../admin/appointments.php">
+                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'appointments.php') ? 'active' : ''; ?>" href="<?php echo ADMIN_URL; ?>appointments.php">
                                     <i class="fas fa-calendar-alt me-2"></i>Citas
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'visits.php') ? 'active' : ''; ?>" href="../admin/visits.php">
+                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'visits.php') ? 'active' : ''; ?>" href="<?php echo ADMIN_URL; ?>visits.php">
                                     <i class="fas fa-history me-2"></i>Visitas
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'clients.php') ? 'active' : ''; ?>" href="../admin/clients.php">
+                                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'clients.php') ? 'active' : ''; ?>" href="<?php echo ADMIN_URL; ?>clients.php">
                                     <i class="fas fa-users me-2"></i>Clientes
                                 </a>
                             </li>

@@ -47,10 +47,10 @@ $APP_CONFIG = [
     ],
     // URLs
     'urls' => [
-        'base' => '/guarderia/public/',
-        'client' => '/guarderia/public/client/',
-        'admin' => '/guarderia/public/admin/',
-        'assets' => '/guarderia/assets/'
+        'base' => '/',
+        'client' => '/client/',
+        'admin' => '/admin/',
+        'assets' => '/assets/'
     ],
     // Configuración de seguridad
     'security' => [

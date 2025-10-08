@@ -27,7 +27,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       # Montar scripts SQL para inicialización
-      - ./database:/docker-entrypoint-initdb.d
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 volumes:
   db_data:
