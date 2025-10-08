@@ -4,7 +4,9 @@ require_once '../includes/functions.php';
 require_once '../viewmodels/AuthViewModel.php';
 require_once '../config/config.php';
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 $authViewModel = new AuthViewModel();
 
