@@ -803,3 +803,8 @@ html {
 .alert-danger {
   border-left-color: var(--danger-color);
 }
+
+/* Espaciado para la barra de navegación fija */
+.navbar-spacer {
+  height: 70px;
+}

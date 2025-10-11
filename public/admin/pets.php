@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $petViewModel->createPet($_POST, $_FILES['photo'] ?? null);
             if ($result['success']) {
                 $_SESSION['success_message'] = $result['message'];
-                redirect('pets.php');
+                redirect(ADMIN_URL . 'pets.php');
             } else {
                 $error = implode('<br>', $result['errors']);
             }
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $petViewModel->updatePet($_POST['id'], $_POST, $_FILES['photo'] ?? null);
             if ($result['success']) {
                 $_SESSION['success_message'] = $result['message'];
-                redirect('pets.php');
+                redirect(ADMIN_URL . 'pets.php');
             } else {
                 $error = implode('<br>', $result['errors']);
             }
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $_SESSION['error_message'] = $result['error'];
             }
-            redirect('pets.php');
+            redirect(ADMIN_URL . 'pets.php');
             break;
             
         case 'update_status':
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $_SESSION['error_message'] = implode('<br>', $result['errors']);
             }
-            redirect('pets.php');
+            redirect(ADMIN_URL . 'pets.php');
             break;
     }
 }
@@ -81,7 +81,7 @@ switch ($action) {
             $pet = $petResult['success'] ? $petResult['data'] : null;
             if (!$pet) {
                 $_SESSION['error_message'] = 'Mascota no encontrada';
-                redirect('pets.php');
+                redirect(ADMIN_URL . 'pets.php');
             }
             
             // Obtener estado actual
@@ -170,7 +170,7 @@ include '../../views/layouts/header.php';
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
                                 <?php if ($pet['photo']): ?>
-                                    <img src="../../assets/images/uploads/<?php echo $pet['photo']; ?>" 
+                                    <img src="<?php echo ASSETS_URL; ?>images/uploads/<?php echo $pet['photo']; ?>" 
                                          class="pet-photo me-3" alt="Foto de <?php echo $pet['name']; ?>">
                                 <?php else: ?>
                                     <div class="pet-photo me-3 bg-light d-flex align-items-center justify-content-center">
@@ -333,10 +333,9 @@ include '../../views/layouts/header.php';
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="age" class="form-label">Edad (años)</label>
-                                        <input type="number" class="form-control" id="age" name="age" 
-                                               value="<?php echo htmlspecialchars($pet['age'] ?? ''); ?>"
-                                               min="0" max="30">
+                                        <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" id="birth_date" name="birth_date"
+                                               value="<?php echo htmlspecialchars($pet['birth_date'] ?? ''); ?>">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="weight" class="form-label">Peso (kg)</label>
@@ -368,7 +367,7 @@ include '../../views/layouts/header.php';
                                     
                                     <?php if ($action === 'edit' && $pet['photo']): ?>
                                         <div class="mt-2">
-                                            <img src="../../assets/images/uploads/<?php echo $pet['photo']; ?>" 
+                                            <img src="<?php echo ASSETS_URL; ?>images/uploads/<?php echo $pet['photo']; ?>" 
                                                  class="pet-photo-large" alt="Foto actual">
                                         </div>
                                     <?php endif; ?>
@@ -412,7 +411,7 @@ include '../../views/layouts/header.php';
             <div class="card">
                 <div class="card-body text-center">
                     <?php if ($pet['photo']): ?>
-                        <img src="../../assets/images/uploads/<?php echo $pet['photo']; ?>" 
+                        <img src="<?php echo ASSETS_URL; ?>images/uploads/<?php echo $pet['photo']; ?>" 
                              class="pet-photo-large mb-3" alt="Foto de <?php echo $pet['name']; ?>">
                     <?php else: ?>
                         <div class="pet-photo-large mb-3 mx-auto bg-light d-flex align-items-center justify-content-center">
@@ -636,6 +635,7 @@ document.addEventListener('click', function(e) {
                 // Crear formulario para enviar POST
                 const form = document.createElement('form');
                 form.method = 'POST';
+                form.action = 'pets.php'; // Asegurar que el POST se envíe al lugar correcto
                 form.innerHTML = `
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="id" value="${petId}">

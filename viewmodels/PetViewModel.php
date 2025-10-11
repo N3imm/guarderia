@@ -133,7 +133,7 @@ class PetViewModel {
     private function uploadPhoto($photo_data) {
         try {
             $photo_name = uniqid('pet_') . '.' . $photo_data['extension'];
-            $upload_path = __DIR__ . '/../assets/images/uploads/' . $photo_name;
+            $upload_path = __DIR__ . '/../public/assets/images/uploads/' . $photo_name;
 
             if (!is_dir(dirname($upload_path))) {
                 mkdir(dirname($upload_path), 0777, true);
@@ -179,7 +179,7 @@ class PetViewModel {
             
             if (in_array($file_ext, $allowed) && $photo['size'] <= 5242880) {
                 $photo_name = uniqid('pet_') . '.' . $file_ext;
-                $upload_path = __DIR__ . '/../assets/images/uploads/' . $photo_name;
+                $upload_path = __DIR__ . '/../public/assets/images/uploads/' . $photo_name;
 
                 if (!is_dir(dirname($upload_path))) {
                     mkdir(dirname($upload_path), 0777, true);
@@ -189,7 +189,7 @@ class PetViewModel {
                     // Eliminar foto anterior
                     $petResult = $this->pet->getById($id);
                     if ($petResult['success'] && !empty($petResult['data']['photo'])) {
-                        $old_photo = __DIR__ . '/../assets/images/uploads/' . $petResult['data']['photo'];
+                        $old_photo = __DIR__ . '/../public/assets/images/uploads/' . $petResult['data']['photo'];
                         if (file_exists($old_photo)) {
                             unlink($old_photo);
                         }
@@ -207,27 +207,33 @@ class PetViewModel {
     }
 
     public function deletePet($id, $role) {
-        $petResult = $this->pet->getById($id);
-        if (!$petResult['success']) {
-            return ['success' => false, 'error' => 'Mascota no encontrada'];
-        }
-
-        if ($role !== 'admin') {
-            if ($petResult['data']['user_id'] != $_SESSION['user_id']) {
-                 return ['success' => false, 'error' => 'No tienes permisos para eliminar esta mascota'];
+        try {
+            $petResult = $this->pet->getById($id);
+            if (!$petResult['success']) {
+                return ['success' => false, 'error' => 'Mascota no encontrada'];
             }
-        }
 
-        if ($this->pet->delete($id)) {
-            if (!empty($petResult['data']['photo'])) {
-                $photo_path = __DIR__ . '/../assets/images/uploads/' . $petResult['data']['photo'];
-                if (file_exists($photo_path)) {
-                    unlink($photo_path);
+            if ($role !== 'admin') {
+                if ($petResult['data']['user_id'] != $_SESSION['user_id']) {
+                    return ['success' => false, 'error' => 'No tienes permisos para eliminar esta mascota'];
                 }
             }
-            return ['success' => true, 'message' => 'Mascota eliminada exitosamente'];
+
+            if ($this->pet->delete($id)) {
+                if (!empty($petResult['data']['photo'])) {
+                    $photo_path = __DIR__ . '/../public/assets/images/uploads/' . $petResult['data']['photo'];
+                    if (file_exists($photo_path)) {
+                        unlink($photo_path);
+                    }
+                }
+                return ['success' => true, 'message' => 'Mascota eliminada exitosamente'];
+            }
+            
+            return ['success' => false, 'error' => 'Error desconocido al eliminar la mascota.'];
+
+        } catch (PDOException $e) {
+            return ['success' => false, 'error' => 'Error de base de datos: ' . $e->getMessage()];
         }
-        return ['success' => false, 'error' => 'Error al eliminar la mascota'];
     }
 
     public function updatePetStatus($pet_id, $status, $description) {

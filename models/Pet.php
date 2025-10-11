@@ -232,7 +232,7 @@ class Pet {
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error eliminando mascota: " . $e->getMessage());
-            return false;
+            throw $e; // Vuelve a lanzar la excepción para que el ViewModel la capture
         }
     }
 

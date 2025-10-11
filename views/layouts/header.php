@@ -20,6 +20,10 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <!-- Custom CSS -->
     <link href="<?php echo ASSETS_URL; ?>css/style.css?v=1.1" rel="stylesheet">
     
