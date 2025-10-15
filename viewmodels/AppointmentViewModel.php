@@ -3,15 +3,19 @@
 require_once __DIR__ . '/../models/Appointment.php';
 require_once __DIR__ . '/../models/Pet.php';
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/database.php';
 
 class AppointmentViewModel {
     private $appointment;
     private $pet;
+    private $conn;
     private $errors = [];
 
     public function __construct() {
-        $this->appointment = new Appointment();
-        $this->pet = new Pet();
+        $database = new Database();
+        $this->conn = $database->getConnection();
+        $this->appointment = new Appointment($this->conn);
+        $this->pet = new Pet($this->conn);
     }
 
     public function createAppointment($data) {
@@ -22,7 +26,7 @@ class AppointmentViewModel {
             $this->errors[] = "Debe seleccionar una mascota";
         } else {
             // Verificar que la mascota exista y pertenezca al usuario
-            $stmt = $this->pet->getConnection()->prepare("SELECT id FROM pets WHERE id = ? AND user_id = ?");
+            $stmt = $this->conn->prepare("SELECT id FROM pets WHERE id = ? AND user_id = ?");
             $stmt->execute([$data['pet_id'], $_SESSION['user_id']]);
             if (!$stmt->fetch()) {
                 $this->errors[] = "La mascota seleccionada no es válida";
@@ -123,21 +127,61 @@ class AppointmentViewModel {
     public function cancelAppointment($id, $user_id) {
         $appointment = $this->appointment->getById($id);
         
-        if (!$appointment['success']) {
+        if (!$appointment) {
             return [
                 'success' => false,
-                'errors' => ['Cita no encontrada']
+                'error' => 'Cita no encontrada'
             ];
         }
 
-        if ($appointment['data']['user_id'] != $user_id) {
+        if ($appointment['user_id'] != $user_id) {
             return [
                 'success' => false,
-                'errors' => ['No tiene permisos para cancelar esta cita']
+                'error' => 'No tiene permisos para cancelar esta cita'
             ];
         }
 
-        return $this->appointment->updateStatus($id, 'cancelada');
+        if ($this->appointment->updateStatus($id, 'cancelada')) {
+            return [
+                'success' => true,
+                'message' => 'Cita cancelada exitosamente'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'error' => 'Error al cancelar la cita'
+            ];
+        }
+    }
+
+    public function updateAppointmentStatus($id, $status, $notes = '') {
+        $valid_statuses = ['pendiente', 'confirmada', 'completada', 'cancelada'];
+        if (!in_array($status, $valid_statuses)) {
+            return [
+                'success' => false,
+                'errors' => ['Estado no válido.']
+            ];
+        }
+
+        $appointment = $this->appointment->getById($id);
+        if (!$appointment) {
+            return [
+                'success' => false,
+                'errors' => ['Cita no encontrada.']
+            ];
+        }
+
+        if ($this->appointment->updateStatus($id, $status, $notes)) {
+            return [
+                'success' => true,
+                'message' => 'Estado de la cita actualizado exitosamente.'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'errors' => ['Error al actualizar el estado de la cita.']
+            ];
+        }
     }
 
     private function isTimeSlotAvailable($date, $time) {

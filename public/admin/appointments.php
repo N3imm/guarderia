@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $appointmentViewModel->createAppointment($_POST);
             if ($result['success']) {
                 $_SESSION['success_message'] = $result['message'];
-                redirect('appointments.php');
+                redirect('/admin/appointments.php');
             } else {
                 $error = implode('<br>', $result['errors']);
             }
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $_SESSION['error_message'] = implode('<br>', $result['errors']);
             }
-            redirect('appointments.php');
+            redirect('/admin/appointments.php');
             break;
             
         case 'cancel':
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $_SESSION['error_message'] = $result['error'];
             }
-            redirect('appointments.php');
+            redirect('/admin/appointments.php');
             break;
     }
 }
@@ -74,7 +74,7 @@ switch ($action) {
             $appointment = $appointmentResult['success'] ? $appointmentResult['data'] : null;
             if (!$appointment) {
                 $_SESSION['error_message'] = 'Cita no encontrada';
-                redirect('appointments.php');
+                redirect('/admin/appointments.php');
             }
         }
         break;
@@ -112,11 +112,11 @@ include '../../views/layouts/header.php';
                     <i class="fas fa-sync-alt me-1"></i>Actualizar
                 </button>
             </div>
-            <a href="appointments.php?action=add" class="btn btn-primary">
+            <a href="/admin/appointments.php?action=add" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Nueva Cita
             </a>
         <?php else: ?>
-            <a href="appointments.php" class="btn btn-secondary">
+            <a href="/admin/appointments.php" class="btn btn-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Volver a la Lista
             </a>
         <?php endif; ?>
@@ -235,7 +235,7 @@ include '../../views/layouts/header.php';
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a href="appointments.php?action=view&id=<?php echo $appointment['id']; ?>" 
+                                            <a href="/admin/appointments.php?action=view&id=<?php echo $appointment['id']; ?>" 
                                                class="btn btn-outline-primary" title="Ver detalles">
                                                 <i class="fas fa-eye"></i>
                                             </a>
@@ -281,7 +281,7 @@ include '../../views/layouts/header.php';
                 <?php endif; ?>
             </p>
             <div class="d-flex gap-2 justify-content-center">
-                <a href="appointments.php?action=add" class="btn btn-primary">
+                <a href="/admin/appointments.php?action=add" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Programar Primera Cita
                 </a>
                 <?php if ($status_filter || $date_filter): ?>
@@ -377,7 +377,7 @@ include '../../views/layouts/header.php';
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Programar Cita
                             </button>
-                            <a href="appointments.php" class="btn btn-secondary">
+                            <a href="/admin/appointments.php" class="btn btn-secondary">
                                 <i class="fas fa-times me-2"></i>Cancelar
                             </a>
                         </div>
@@ -553,19 +553,19 @@ include '../../views/layouts/header.php';
 const petsData = <?php echo json_encode($pets ?? []); ?>;
 
 function clearFilters() {
-    window.location.href = 'appointments.php';
+    window.location.href = '/admin/appointments.php';
 }
 
 function setTodayFilter() {
     const today = new Date().toISOString().split('T')[0];
-    window.location.href = `appointments.php?date=${today}`;
+    window.location.href = `/admin/appointments.php?date=${today}`;
 }
 
 function setWeekFilter() {
     const today = new Date();
     const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
     const mondayStr = monday.toISOString().split('T')[0];
-    window.location.href = `appointments.php?date=${mondayStr}`;
+    window.location.href = `/admin/appointments.php?date=${mondayStr}`;
 }
 
 function loadUserPets(userId) {

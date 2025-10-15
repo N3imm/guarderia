@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $appointmentViewModel->createAppointment($_POST);
             if ($result['success']) {
                 $_SESSION['success_message'] = $result['message'];
-                redirect('appointments.php');
+                redirect('client/appointments.php');
             } else {
                 $error = implode('<br>', $result['errors']);
             }
@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($result['success']) {
                 $_SESSION['success_message'] = $result['message'];
             } else {
-                $_SESSION['error_message'] = $result['error'];
+                $_SESSION['error_message'] = $result['error'] ?? 'Ocurrió un error al cancelar la cita.';
             }
-            redirect('appointments.php');
+            redirect('client/appointments.php');
             break;
     }
 }
@@ -65,12 +65,11 @@ switch ($action) {
         
     case 'view':
         if ($appointment_id) {
-            $appointmentResult = $appointmentViewModel->getAppointmentById($appointment_id);
-            if (!$appointmentResult['success'] || $appointmentResult['data']['user_id'] != $user_id) {
-                $_SESSION['error_message'] = 'Cita no encontrada';
-                redirect('appointments.php');
+            $appointment = $appointmentViewModel->getAppointmentById($appointment_id);
+            if (!$appointment || $appointment['user_id'] != $user_id) {
+                $_SESSION['error_message'] = 'Cita no encontrada o no tiene permisos para verla.';
+                redirect('client/appointments.php');
             }
-            $appointment = $appointmentResult['data'];
         }
         break;
 }
@@ -85,11 +84,11 @@ include '../../views/layouts/header.php';
         <i class="fas fa-calendar-alt me-2 text-primary"></i>Mis Citas
     </h1>
     <?php if ($action === 'list'): ?>
-        <a href="appointments.php?action=add" class="btn btn-primary">
+        <a href="/client/appointments.php?action=add" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Nueva Cita
         </a>
     <?php else: ?>
-        <a href="appointments.php" class="btn btn-secondary">
+        <a href="/client/appointments.php" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-2"></i>Volver
         </a>
     <?php endif; ?>
@@ -115,7 +114,7 @@ include '../../views/layouts/header.php';
                             <p><i class="fas fa-calendar me-2"></i><?php echo date('d/m/Y H:i', strtotime($appointment['appointment_date'] . ' ' . $appointment['appointment_time'])); ?></p>
                             <p><i class="fas fa-cog me-2"></i><?php echo ucfirst($appointment['service_type']); ?></p>
                             <div class="d-flex gap-2">
-                                <a href="appointments.php?action=view&id=<?php echo $appointment['id']; ?>" class="btn btn-sm btn-outline-primary">Ver</a>
+                                <a href="/client/appointments.php?action=view&id=<?php echo $appointment['id']; ?>" class="btn btn-sm btn-outline-primary">Ver</a>
                                 <?php if (in_array($appointment['status'], ['pendiente', 'confirmada'])): ?>
                                     <button class="btn btn-sm btn-outline-danger" onclick="cancelAppointment(<?php echo $appointment['id']; ?>)">Cancelar</button>
                                 <?php endif; ?>
@@ -129,7 +128,7 @@ include '../../views/layouts/header.php';
         <div class="text-center py-5">
             <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
             <h4>No tienes citas programadas</h4>
-            <a href="appointments.php?action=add" class="btn btn-primary mt-3">Programar Primera Cita</a>
+            <a href="/client/appointments.php?action=add" class="btn btn-primary mt-3">Programar Primera Cita</a>
         </div>
     <?php endif; ?>
 
@@ -192,7 +191,7 @@ include '../../views/layouts/header.php';
 
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary">Programar Cita</button>
-                                <a href="appointments.php" class="btn btn-secondary">Cancelar</a>
+                                <a href="/client/appointments.php" class="btn btn-secondary">Cancelar</a>
                             </div>
                         </form>
                     </div>
