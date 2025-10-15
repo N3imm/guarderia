@@ -47,11 +47,6 @@ function getMenuItems($role) {
                 'title' => 'Mis Citas',
                 'icon' => 'calendar-alt',
                 'url' => CLIENT_URL . 'appointments.php'
-            ],
-            [
-                'title' => 'Historial',
-                'icon' => 'history',
-                'url' => CLIENT_URL . 'visits.php'
             ]
         ]
     ];

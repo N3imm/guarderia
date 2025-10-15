@@ -31,6 +31,12 @@ if (session_status() == PHP_SESSION_NONE) {
     <link rel="icon" type="image/x-icon" href="<?php echo ASSETS_URL; ?>images/favicon.ico">
 </head>
 <body class="<?php echo isset($body_class) ? $body_class : ''; ?>">
+    <script>
+        // Aplicar modo oscuro inmediatamente para prevenir flash
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
 <?php 
 // Incluir helpers de menú

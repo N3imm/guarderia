@@ -145,5 +145,18 @@ class User {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
     }
+
+    // Actualizar contraseña
+    public function updatePassword($id, $newPassword) {
+        $query = "UPDATE " . $this->table . " SET password = :password WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $hashed_password = password_hash($newPassword, getConfig('security.hash_algo'));
+
+        $stmt->bindParam(':password', $hashed_password);
+        $stmt->bindParam(':id', $id);
+
+        return $stmt->execute();
+    }
 }
 ?>

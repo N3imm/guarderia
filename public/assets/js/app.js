@@ -42,4 +42,37 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.remove('navbar-scrolled');
         }
     });
+
+    // --- Lógica para el Modo Oscuro ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    let darkMode = localStorage.getItem('darkMode'); 
+
+    const enableDarkMode = () => {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+        if(darkModeToggle) darkModeToggle.checked = true;
+    }
+
+    const disableDarkMode = () => {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', null);
+        if(darkModeToggle) darkModeToggle.checked = false;
+    }
+
+    // Aplicar el tema al cargar la página
+    if (darkMode === 'enabled') {
+        enableDarkMode();
+    }
+
+    // Event listener para el interruptor
+    if(darkModeToggle) {
+        darkModeToggle.addEventListener('change', () => {
+            darkMode = localStorage.getItem('darkMode'); 
+            if (darkMode !== 'enabled') {
+                enableDarkMode();
+            } else {  
+                disableDarkMode(); 
+            }
+        });
+    }
 });

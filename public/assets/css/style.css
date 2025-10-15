@@ -808,3 +808,78 @@ html {
 .navbar-spacer {
   height: 70px;
 }
+
+/* --- Dark Mode Styles --- */
+body.dark-mode {
+  --background-color: #121212;
+  --card-background: #1e1e1e;
+  --text-color: #e0e0e0;
+  --text-muted-color: #a0a0a0;
+  --border-color: #333333;
+
+  --bs-body-bg: var(--background-color);
+  --bs-body-color: var(--text-color);
+  --bs-border-color: var(--border-color);
+}
+
+body.dark-mode .navbar-dark {
+  background-color: #1e1e1e !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+body.dark-mode .card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+body.dark-mode .modal-content {
+    background-color: var(--card-background);
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    background-color: #121212;
+    border-color: var(--border-color);
+}
+
+body.dark-mode .table {
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .table thead th {
+  color: var(--primary-color);
+}
+
+body.dark-mode .form-control, 
+body.dark-mode .form-select {
+    background-color: #2c2c2c;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .form-control:focus, 
+body.dark-mode .form-select:focus {
+    background-color: #2c2c2c;
+    color: var(--text-color);
+}
+
+body.dark-mode .auth-right {
+  background-color: var(--card-background);
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #444;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

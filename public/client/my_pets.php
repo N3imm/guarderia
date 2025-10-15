@@ -370,7 +370,7 @@ include '../../views/layouts/header.php';
                     </div>
                     <div class="card-body">
                         <p class="mb-0">
-                            <?php echo $current_status['message']; ?>
+                            <?php echo htmlspecialchars($current_status['message'] ?? 'No hay un estado actual disponible.'); ?>
                         </p>
                     </div>
                 </div>

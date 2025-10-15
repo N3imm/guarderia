@@ -157,8 +157,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `phone`, `role`, `created_at`, `updated_at`) VALUES
-(5, 'EGo__', 'xjanakx08@gmail.com', '$2y$10$w47zApMCLthfaWbLOaCabe4oREOhTbKbEz8Sl5QQ8CxbaZokcPi4q', 'Juan', 'Socorro', '3232266112', 'admin', '2025-09-26 03:51:12', '2025-09-26 03:51:12'),
-(6, 'DilanSala', 'dilanandressalamanca@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$TnF0aXFQbkNranhuYS50bA$/39oylnsTV/uQIG6Xdxq3/YR6OY4bW6JG15g0/AJrIs', 'Dilan Andres', 'Salamanca', '3187652215', 'client', '2025-09-29 18:44:05', '2025-09-29 18:44:05');
+
 
 -- --------------------------------------------------------
 
