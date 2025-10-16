@@ -516,3 +516,223 @@ include '../../views/layouts/header.php';
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="check_out_time" class="form-label">Hora de Salida</label>
+                                        <input type="time" class="form-control" id="check_out_time" name="check_out_time"
+                                               value="<?php echo htmlspecialchars($visit['check_out_time'] ?? ''); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="mb-3">
+                                    <i class="fas fa-file-alt me-2 text-primary"></i>Notas y Servicios
+                                </h5>
+                                <div class="mb-3">
+                                    <label for="services_provided" class="form-label">Servicios Prestados</label>
+                                    <textarea class="form-control" id="services_provided" name="services_provided" rows="4"
+                                              placeholder="Ej: Baño, corte de pelo, paseo..."><?php echo htmlspecialchars($visit['services_provided'] ?? 'Guardería general'); ?></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="observations" class="form-label">Observaciones</label>
+                                    <textarea class="form-control" id="observations" name="observations" rows="4"
+                                              placeholder="Comportamiento, incidencias, etc."><?php echo htmlspecialchars($visit['observations'] ?? ''); ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                <?php echo $action === 'edit' ? 'Guardar Cambios' : 'Crear Visita'; ?>
+                            </button>
+                            <a href="visits.php" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php elseif ($action === 'view'): ?>
+    <!-- Vista de Detalles -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <?php if ($visit): ?>
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-paw me-2 text-primary"></i>
+                            Visita de <?php echo htmlspecialchars($visit['pet_name']); ?>
+                        </h5>
+                        <span class="badge bg-<?php echo $visit['check_out_time'] ? 'secondary' : 'success'; ?>">
+                            <?php echo $visit['check_out_time'] ? 'Finalizada' : 'Activa'; ?>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Información de la Mascota</h6>
+                                <ul class="list-group list-group-flush mb-4">
+                                    <li class="list-group-item">
+                                        <strong>Mascota:</strong> <?php echo htmlspecialchars($visit['pet_name']); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Cliente:</strong> <?php echo htmlspecialchars($visit['owner_first_name'] . ' ' . $visit['owner_last_name']); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Especie:</strong> <?php echo ucfirst($visit['species']); ?>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Detalles de la Visita</h6>
+                                <ul class="list-group list-group-flush mb-4">
+                                    <li class="list-group-item">
+                                        <strong>Fecha:</strong> <?php echo date('d/m/Y', strtotime($visit['visit_date'])); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Check-in:</strong> 
+                                        <span class="badge bg-success"><?php echo $visit['check_in_time'] ? date('H:i', strtotime($visit['check_in_time'])) : 'N/A'; ?></span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Check-out:</strong> 
+                                        <?php if ($visit['check_out_time']): ?>
+                                            <span class="badge bg-info"><?php echo date('H:i', strtotime($visit['check_out_time'])); ?></span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">En guardería</span>
+                                        <?php endif; ?>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h6 class="text-muted mt-3">Servicios y Observaciones</h6>
+                        <div class="p-3 bg-light rounded">
+                            <p><strong>Servicios:</strong> <?php echo htmlspecialchars($visit['services_provided'] ?: 'No especificados'); ?></p>
+                            <p class="mb-0"><strong>Observaciones:</strong> <?php echo nl2br(htmlspecialchars($visit['observations'] ?: 'Sin observaciones')); ?></p>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="visits.php?action=edit&id=<?php echo $visit['id']; ?>" class="btn btn-outline-warning">
+                            <i class="fas fa-edit me-2"></i>Editar
+                        </a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    No se pudo cargar la información de la visita.
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- Modal de Check-out -->
+<div class="modal fade" id="checkOutModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST">
+                <input type="hidden" name="action" value="checkout">
+                <input type="hidden" name="pet_id" id="checkOutPetId">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Salida de <span id="checkOutPetName" class="fw-bold"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="observations" class="form-label">Observaciones Finales</label>
+                        <textarea class="form-control" id="observations" name="observations" rows="3" 
+                                  placeholder="Comportamiento, estado al salir, etc."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-sign-out-alt me-2"></i>Confirmar Salida
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Formulario oculto para eliminación -->
+<form method="POST" id="delete-visit-form" style="display: none;">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="id" id="delete-visit-id">
+</form>
+
+<script>
+function clearFilters() {
+    document.getElementById('pet_id').value = '';
+    document.getElementById('date_from').value = '';
+    document.getElementById('date_to').value = '';
+    window.location.href = 'visits.php';
+}
+
+function setDateFilter(period) {
+    const today = new Date();
+    let from = '';
+    let to = '';
+
+    switch (period) {
+        case 'today':
+            from = to = today.toISOString().split('T')[0];
+            break;
+        case 'yesterday':
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            from = to = yesterday.toISOString().split('T')[0];
+            break;
+        case 'week':
+            const firstDay = new Date(today.setDate(today.getDate() - today.getDay()));
+            from = firstDay.toISOString().split('T')[0];
+            to = new Date().toISOString().split('T')[0];
+            break;
+        case 'month':
+            from = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+            to = new Date().toISOString().split('T')[0];
+            break;
+    }
+    
+    document.getElementById('date_from').value = from;
+    document.getElementById('date_to').value = to;
+    document.querySelector('form.row').submit();
+}
+
+function setActiveFilter() {
+    window.location.href = 'visits.php?active=1';
+}
+
+function showCheckOutModal(petId, petName) {
+    document.getElementById('checkOutPetId').value = petId;
+    document.getElementById('checkOutPetName').textContent = petName;
+    new bootstrap.Modal(document.getElementById('checkOutModal')).show();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmButtons = document.querySelectorAll('.btn-confirm');
+    confirmButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.dataset.action;
+            const id = this.dataset.id;
+            const message = this.dataset.message || '¿Estás seguro?';
+
+            if (confirm(message)) {
+                if (action === 'delete-visit') {
+                    const form = document.getElementById('delete-visit-form');
+                    document.getElementById('delete-visit-id').value = id;
+                    form.submit();
+                }
+            }
+        });
+    });
+});
+</script>
+
+<?php include '../../views/layouts/footer.php'; ?>

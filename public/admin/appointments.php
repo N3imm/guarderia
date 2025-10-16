@@ -71,7 +71,7 @@ switch ($action) {
     case 'view':
         if ($appointment_id) {
             $appointmentResult = $appointmentViewModel->getAppointmentById($appointment_id);
-            $appointment = $appointmentResult['success'] ? $appointmentResult['data'] : null;
+            $appointment = ($appointmentResult['success'] ?? false) ? $appointmentResult['data'] : null;
             if (!$appointment) {
                 $_SESSION['error_message'] = 'Cita no encontrada';
                 redirect('/admin/appointments.php');
@@ -82,7 +82,7 @@ switch ($action) {
     case 'add':
         // Obtener mascotas y clientes para los selects
         $petsResult = $petViewModel->getAllPets();
-        $pets = $petsResult['success'] ? $petsResult['data'] : [];
+        $pets = ($petsResult['success'] ?? false) ? $petsResult['data'] : [];
         $clientsResult = $petViewModel->getAllClients();
         $clients = $clientsResult['success'] ? $clientsResult['data'] : [];
         break;
@@ -604,7 +604,7 @@ function loadAvailableHours() {
     timeSelect.disabled = true;
     
     // Simular carga de horarios disponibles
-    fetch('../../controllers/appointment_controller.php', {
+    fetch('../controllers/appointment_controller.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
